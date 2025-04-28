@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baix Ebre i Montsià</title>
+    <style>
+        .day {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Baix Ebre i Montsià</h1>
+    <div id="weather-data"></div>
+    <script>
+        // Carregar el fitxer JSON
+        fetch('json.json')
+       // Funció per formatar la data
+       function formatDate(dateString) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ca-ES', options);
+        }
+
+    </script>
+</body>
+</html>
