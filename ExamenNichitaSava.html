@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Nom Cognom</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: left;
+    }
+    .verd {
+      background-color: #b2fab4;
+    }
+    .groc {
+      background-color: #fff59d;
+    }
+  </style>
+</head>
+<body>
+  <h1>Plantes del Baix Ebre</h1>
+  <table id="taulaBaixEbre">
+    <tr><th>Nom</th><th>Potència</th><th>Municipi</th></tr>
+  </table>
+
+  <h1>Plantes del Montsià</h1>
+  <table id="taulaMontsia">
+    <tr><th>Nom</th><th>Potència</th><th>Municipi</th></tr>
+  </table>
+
+  <script>
+    fetch('json.json')
+      .then(response => response.json())
+      .then(data => {
+        const plantes = data.plantes;
+
+        const plantesBaixEbre = plantes.filter(p =>
+          p.veguera === "Terres de l'Ebre" && p.comarca === "Baix Ebre"
+        );
+
+        const plantesMontsia = plantes.filter(p =>
+          p.veguera === "Terres de l'Ebre" && p.comarca === "Montsià"
+        );
+
+        function mostrarTaula(plantes, idTaula) {
+          const taula = document.getElementById(idTaula);
+          plantes.forEach(p => {
+            const fila = document.createElement('tr');
+
+            if (p.potencia_mw >= 5) fila.classList.add('verd');
+            if (p.num_plantes == 1) fila.classList.add('groc');
+
+            fila.innerHTML = `<td>${p.nom}</td><td>${p.potencia_mw}</td><td>${p.municipi}</td>`;
+            taula.appendChild(fila);
+          });
+        }
+
+        mostrarTaula(plantesBaixEbre, 'taulaBaixEbre');
+        mostrarTaula(plantesMontsia, 'taulaMontsia');
+      });
+  </script>
+</body>
+</html>
