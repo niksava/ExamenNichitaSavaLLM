@@ -15,53 +15,58 @@
       text-align: left;
     }
     .verd {
-      background-color: #b2fab4;
+      background-color: #c8e6c9; /* verd clar */
     }
     .groc {
-      background-color: #fff59d;
+      background-color: #fff9c4; /* groc clar */
     }
   </style>
 </head>
 <body>
-  <h1>Plantes del Baix Ebre</h1>
-  <table id="taulaBaixEbre">
-    <tr><th>Nom</th><th>Potència</th><th>Municipi</th></tr>
+  <h2>Plantes del Baix Ebre</h2>
+  <table id="baixEbre">
+    <tr>
+      <th>Nom</th><th>Potència</th><th>Municipi</th><th>Núm. Plantes</th>
+    </tr>
   </table>
 
-  <h1>Plantes del Montsià</h1>
-  <table id="taulaMontsia">
-    <tr><th>Nom</th><th>Potència</th><th>Municipi</th></tr>
+  <h2>Plantes del Montsià</h2>
+  <table id="montsia">
+    <tr>
+      <th>Nom</th><th>Potència</th><th>Municipi</th><th>Núm. Plantes</th>
+    </tr>
   </table>
 
   <script>
     fetch('json.json')
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         const plantes = data.plantes;
 
-        const plantesBaixEbre = plantes.filter(p =>
-          p.veguera === "Terres de l'Ebre" && p.comarca === "Baix Ebre"
-        );
+        const baixEbre = plantes.filter(p => p.veguera === "Terres de l'Ebre" && p.comarca === "Baix Ebre");
+        const montsia = plantes.filter(p => p.veguera === "Terres de l'Ebre" && p.comarca === "Montsià");
 
-        const plantesMontsia = plantes.filter(p =>
-          p.veguera === "Terres de l'Ebre" && p.comarca === "Montsià"
-        );
+        function omplirTaula(plantes, id) {
+          const taula = document.getElementById(id);
 
-        function mostrarTaula(plantes, idTaula) {
-          const taula = document.getElementById(idTaula);
           plantes.forEach(p => {
             const fila = document.createElement('tr');
 
             if (p.potencia_mw >= 5) fila.classList.add('verd');
-            if (p.num_plantes == 1) fila.classList.add('groc');
+            if (p.num_plantes === 1) fila.classList.add('groc');
 
-            fila.innerHTML = `<td>${p.nom}</td><td>${p.potencia_mw}</td><td>${p.municipi}</td>`;
+            fila.innerHTML = `
+              <td>${p.nom}</td>
+              <td>${p.potencia_mw}</td>
+              <td>${p.municipi}</td>
+              <td>${p.num_plantes}</td>
+            `;
             taula.appendChild(fila);
           });
         }
 
-        mostrarTaula(plantesBaixEbre, 'taulaBaixEbre');
-        mostrarTaula(plantesMontsia, 'taulaMontsia');
+        omplirTaula(baixEbre, "baixEbre");
+        omplirTaula(montsia, "montsia");
       });
   </script>
 </body>
